@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  java:
+    build: ./java-api
+    image: 'registry.njax.org/zelda-recipe/java-api'
+    env_file: ./.env
+    environment:
+      EMPTY: 'true'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'db'
+    volumes:
+      - './java-api:/app'
+    entrypoint: [ /entrypoint.sh, development_server ]
+
+  #react:
+
+  db:
+    image: mysql:5.7
+    restart: "no"
+    ports:
+      - "30409:3306"
+    env_file:
+      - ./.env
+    volumes:
+      - my-db-zelda:/var/lib/mysql
+
+volumes:
+  my-db-zelda:

@@ -10,7 +10,8 @@ This apps core features (incomplete) are to:
 
 ## Progress
 
-- Create docker-compose with java, react, and db included
+x Create docker-compose with java, react, and db included
 - Create react scaffolding
 - Create node backend
+- Update docker-compose to serve react
 
