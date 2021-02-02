@@ -23,6 +23,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+
+test {
+	useJUnitPlatform()
+}
+
 // enables automatic app restarting based on class changes
 configurations {
 	developmentOnly
@@ -31,10 +36,7 @@ configurations {
 	}
 }
 
-test {
-	useJUnitPlatform()
-}
-
+// Force name of jar to be the same across all projects
 jar     { archiveName 'app.jar' }
 bootJar { archiveName 'app.jar' }
 

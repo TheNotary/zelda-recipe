@@ -19,4 +19,4 @@ RUN mkdir /app
 
 COPY entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT [ "/entrypoint.sh" "deployment" ]
+ENTRYPOINT [ "/entrypoint.sh", "deployment" ]

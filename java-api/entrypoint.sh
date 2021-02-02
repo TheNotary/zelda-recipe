@@ -28,5 +28,5 @@ fi
 
 if [ "$1" = 'deployment' ]; then
   echo "Beginning production serve"
-  java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+  java -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -Djava.security.egd=file:/dev/./urandom -jar /app.jar
 fi
