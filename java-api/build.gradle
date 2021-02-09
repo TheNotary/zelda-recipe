@@ -4,6 +4,8 @@ plugins {
 	id 'java'
 }
 
+def pulsarVersion = '2.7.0'
+
 group = 'org.njax'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
@@ -16,6 +18,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 //	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+  compile group: 'org.apache.pulsar', name: 'pulsar-client', version: pulsarVersion
 
 
 	runtimeOnly 'mysql:mysql-connector-java'
@@ -39,4 +43,3 @@ configurations {
 // Force name of jar to be the same across all projects
 jar     { archiveName 'app.jar' }
 bootJar { archiveName 'app.jar' }
-

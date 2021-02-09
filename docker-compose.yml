@@ -1,12 +1,36 @@
 version: '3'
 
 services:
+
+  python_pulsar_consumer:
+    build: ./python-pulsar
+    image: 'registry.njax.org/zelda-recipe/python-pulsar'
+    env_file: ./.env
+    environment:
+      PROTOCOL_URL: 'pulsar://standalone:6650'
+    depends_on:
+      - 'standalone'
+    entrypoint: [ /entrypoint.sh, consume ]
+
+  python_pulsar_producer:
+    build: ./python-pulsar
+    image: 'registry.njax.org/zelda-recipe/python-pulsar'
+    stdin_open: true
+    tty: true
+    env_file: ./.env
+    environment:
+      PROTOCOL_URL: 'pulsar://standalone:6650'
+    depends_on:
+      - 'standalone'
+    entrypoint: [ /entrypoint.sh, produce ]
+
+
   java:
     build: ./java-api
     image: 'registry.njax.org/zelda-recipe/java-api'
     env_file: ./.env
     environment:
-      EMPTY: 'true'
+      PROTOCOL_URL: 'pulsar://standalone:6650'
     ports:
       - '8080:8080'
     depends_on:
@@ -17,6 +41,12 @@ services:
 
   #react:
 
+#######################
+#  Backing Services   #
+#######################
+
+## MySQL
+
   db:
     image: mysql:5.7
     restart: "no"
@@ -26,6 +56,30 @@ services:
       - ./.env
     volumes:
       - my-db-zelda:/var/lib/mysql
+
+## Pulsar
+
+  standalone:
+    image: apachepulsar/pulsar
+    expose:
+      - 8080
+      - 6650
+    ports:
+      - "6650:6650"
+    environment:
+      - BOOKIE_MEM=" -Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g"
+    command: >
+      /bin/bash -c
+      "bin/apply-config-from-env.py conf/standalone.conf
+      && bin/pulsar standalone"
+  dashboard:
+    image: apachepulsar/pulsar-dashboard
+    depends_on:
+      - standalone
+    ports:
+      - "80:80"
+    environment:
+      - SERVICE_URL=http://standalone:8080
 
 volumes:
   my-db-zelda:

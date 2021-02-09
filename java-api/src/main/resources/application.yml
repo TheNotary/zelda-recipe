@@ -1,3 +1,7 @@
+
+pulsar:
+  protocol_url: ${PROTOCOL_URL}
+
 spring:
   datasource:
     url: ${DB_URL}
