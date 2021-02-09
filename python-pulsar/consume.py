@@ -1,5 +1,6 @@
 import pulsar
 import os
+import time
 
 protocol_url = os.getenv('PROTOCOL_URL', 'pulsar://localhost:6650')
 
@@ -20,6 +21,7 @@ def consumer_routine(consumer):
         msg = consumer.receive()
         print("Received message '{}' id='{}'".format(msg.data(), msg.message_id()))
         consumer.acknowledge(msg)
+        #time.sleep(2)
 
 
 
